@@ -1,9 +1,12 @@
 const tweetsElement = document.getElementById('tweets');
+const tweetCreateForm = document.getElementById('tweet-create-form')
 tweetsElement.innerHTML = 'Loading...';
-// AJAX request
-url = '/tweets';
 
-async function getData() {
+home_url = '/tweets';
+
+// AJAX requests
+
+async function getData(url) {
   try {
     const response = await fetch(url);
     if (response.ok) {
@@ -19,6 +22,22 @@ async function getData() {
   } catch(error) {
     console.log(error);
   }
+}
+
+function postFormData(url, data) {  // try to convert that into async/await fetch
+  event.preventDefault()
+  const xhr = new XMLHttpRequest()
+  xhr.responseType = 'json';
+  xhr.open('POST', url)
+  xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+  xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+  xhr.onload = function () {
+    if (xhr.status === 201) {
+      const newTweetJson = xhr.response
+      const newTweetElement = formatTweet(newTweetJson);
+    }
+    getData(home_url);  }
+  xhr.send(data)
 }
 
 function formatTweet(tweet) {
@@ -41,7 +60,16 @@ function likeButton(tweet){
 
 function handleDidLike(tweet_id, currentLikes) {
   currentLikes++;
-  console.log(currentLikes);
 }
 
-getData();
+function handleTweetSubmitForm(e) {
+  e.preventDefault();
+  const myForm = e.target;
+  const myFormData = new FormData(myForm);
+  const endpoint = myForm.getAttribute('action');
+  postFormData(endpoint, myFormData);
+}
+
+tweetCreateForm.addEventListener('submit', handleTweetSubmitForm)
+
+getData(home_url);

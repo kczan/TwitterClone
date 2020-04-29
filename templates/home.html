@@ -5,7 +5,7 @@
 <h1>This is home page content</h1>
 <section class="row">
   <div class='col-md-4 mx-auto'>
-    <form action="/create-tweet" method="POST" class="form">
+    <form action="/create-tweet" id='tweet-create-form' method="POST" class="form">
       {% csrf_token %}
       <input type="hidden" value="/" name="next">
       <textarea class='form-control' name="content" placeholder="Your tweet..." id="" cols="20" rows="3"></textarea>
