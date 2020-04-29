@@ -3,6 +3,18 @@
 
 {% block content %}
 <h1>This is home page content</h1>
+<section class="row">
+  <div class='col-md-4 mx-auto'>
+    <form action="/create-tweet" method="POST" class="form">
+      {% csrf_token %}
+      <input type="hidden" value="/" name="next">
+      <textarea class='form-control' name="content" placeholder="Your tweet..." id="" cols="20" rows="3"></textarea>
+      <button class='btn btn-primary' type="submit">Tweet</button>
+    </form>
+  </div>
+
+</section>
+
 <section class='row ml-4' id='tweets'>
 
 </section>

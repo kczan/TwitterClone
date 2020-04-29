@@ -24,7 +24,7 @@ async function getData() {
 function formatTweet(tweet) {
   return (
     `
-    <section class='col-12 mb-4'>
+    <section class='col-12 mb-4 border'>
     <article>
     <h2 class='mb-4 tweet' id='tweet-${tweet.id}'>${tweet.content}</h2>
     </article>
