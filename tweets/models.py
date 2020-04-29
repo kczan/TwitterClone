@@ -2,9 +2,12 @@ from django.db import models
 
 # Create your models here.
 class Tweet(models.Model):
-  content = models.TextField(blank=True, null=True, max_length=180)
+  content = models.TextField(blank=True, null=True)
   image = models.FileField(upload_to='images/', blank=True, null=True)
   likes = 0
+
+  class Meta:
+    ordering = ['-id']
 
   def serialize(self):
     return {

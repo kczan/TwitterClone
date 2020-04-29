@@ -23,9 +23,7 @@ def tweet_list_view(request, *args, **kwargs):
 def tweet_create_view(request):
   form = TweetForm(request.POST or None)
   next_url = request.POST.get('next') or None
-  print(request.POST, 'asdads')
-  print(next_url, 'dupa')
-  if form.is_valid:
+  if form.is_valid():
     obj = form.save(commit=False)
     obj.save()
     if request.is_ajax():
@@ -33,7 +31,9 @@ def tweet_create_view(request):
     if next_url != None and is_safe_url(next_url, ALLOWED_HOSTS):
       return redirect(next_url)
     form = TweetForm()
-
+  if form.errors:
+    if request.is_ajax():
+      return JsonResponse(form.errors, status=400)
   return render(request, 'components/form.html', context={'form': form})
 
 def tweet_detail_view(request, tweet_id):

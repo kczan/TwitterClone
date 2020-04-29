@@ -1,5 +1,6 @@
 const tweetsElement = document.getElementById('tweets');
-const tweetCreateForm = document.getElementById('tweet-create-form')
+const tweetCreateForm = document.getElementById('tweet-create-form');
+const alertBar = document.getElementById('alert-bar');
 tweetsElement.innerHTML = 'Loading...';
 
 home_url = '/tweets';
@@ -33,10 +34,23 @@ function postFormData(url, data) {  // try to convert that into async/await fetc
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
   xhr.onload = function () {
     if (xhr.status === 201) {
+      if (alertBar.classList.contains('alert-danger')) {
+        alertBar.classList.remove('alert-danger')
+        alertBar.innerHTML = ''
+      }
       const newTweetJson = xhr.response
       const newTweetElement = formatTweet(newTweetJson);
+      const originalHtml = tweetsElement.innerHTML;
+      tweetsElement.innerHTML = newTweetElement + originalHtml;
+    } else if (xhr.status === 400) {
+      const errorJson = xhr.response.content
+      alertBar.classList.add('alert-danger');
+      alertBar.innerHTML = errorJson
     }
-    getData(home_url);  }
+  }
+  xhr.onerror = () => {
+    alert('An error occured. Please contact the dev team.')
+  }
   xhr.send(data)
 }
 
@@ -68,6 +82,7 @@ function handleTweetSubmitForm(e) {
   const myFormData = new FormData(myForm);
   const endpoint = myForm.getAttribute('action');
   postFormData(endpoint, myFormData);
+  myForm.reset();
 }
 
 tweetCreateForm.addEventListener('submit', handleTweetSubmitForm)
