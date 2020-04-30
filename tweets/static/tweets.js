@@ -5,6 +5,23 @@ tweetsElement.innerHTML = 'Loading...';
 
 home_url = '/tweets';
 
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
 // AJAX requests
 
 async function getData(url) {
@@ -13,7 +30,8 @@ async function getData(url) {
     if (response.ok) {
       tweetsElement.innerHTML = '';
       const jsonResponse = await response.json();
-      const tweetsContent = jsonResponse.response;
+      const tweetsContent = jsonResponse;
+      console.log(tweetsContent)
       tweetsContent.map(tweet => {
         tweetsElement.innerHTML += formatTweet(tweet);
       })
@@ -35,8 +53,7 @@ function postFormData(url, data) {  // try to convert that into async/await fetc
   xhr.onload = function () {
     if (xhr.status === 201) {
       if (alertBar.classList.contains('alert-danger')) {
-        alertBar.classList.remove('alert-danger')
-        alertBar.innerHTML = ''
+        showError('', false)
       }
       const newTweetJson = xhr.response
       const newTweetElement = formatTweet(newTweetJson);
@@ -44,14 +61,29 @@ function postFormData(url, data) {  // try to convert that into async/await fetc
       tweetsElement.innerHTML = newTweetElement + originalHtml;
     } else if (xhr.status === 400) {
       const errorJson = xhr.response.content
-      alertBar.classList.add('alert-danger');
-      alertBar.innerHTML = errorJson
+      showError(errorJson, true)
+    } else if (xhr.status === 401) {
+      alert("Please log in!")
+      window.location.href = '/login'
+    } else if (xhr.status === 403) {
+      alert("Please log in!")
+      window.location.href = '/login'
     }
   }
   xhr.onerror = () => {
     alert('An error occured. Please contact the dev team.')
   }
   xhr.send(data)
+}
+
+function showError(message, display){
+  if (display == true) {
+    alertBar.classList.add('alert-danger');
+    alertBar.innerHTML = message
+  } else {
+    alertBar.classList.remove('alert-danger')
+    alertBar.innerHTML = ''
+  }
 }
 
 function formatTweet(tweet) {
@@ -62,18 +94,61 @@ function formatTweet(tweet) {
     <h2 class='mb-4 tweet' id='tweet-${tweet.id}'>${tweet.content}</h2>
     </article>
     <aside class='btn-group'>
-    ${likeButton(tweet)}
+    ${likeButton(tweet)}${unLikeButton(tweet)}${likesCount(tweet)}${retweetButton(tweet)}
     </aside>
     </section>
     `);
 }
 
 function likeButton(tweet){
-  return `<button class='btn btn-primary' onclick=handleDidLike(${tweet.id},${tweet.likes})>Like(${tweet.likes})</button>`
+  console.log(tweet.likes)
+  return `<button class='btn btn-primary' id='like_${tweet.id}' onclick=handleTweetAction(${tweet.id},${tweet.likes},'like')>Like</button>`
 }
 
-function handleDidLike(tweet_id, currentLikes) {
-  currentLikes++;
+function unLikeButton(tweet) {
+  return `<button class='btn btn-primary' id='unlike_${tweet.id}'onclick=handleTweetAction(${tweet.id},${tweet.likes},'unlike')>Unlike</button>`
+}
+
+function likesCount(tweet) {
+  return `<p class='input-group-text'>${tweet.likes}</p>`
+}
+
+function retweetButton(tweet) {
+  return `<button class='btn btn-outline-success btn-sm' id='unlike_${tweet.id}'onclick=handleTweetAction(${tweet.id},${tweet.likes},'retweet')>Retweet</button>`
+}
+
+function handleTweetAction(tweet_id, currentLikes, action) {
+  const csrftoken = getCookie('csrftoken');
+  console.log(tweet_id, currentLikes)
+  const url = 'api/tweets/action'
+  const method = 'POST'
+  const data = JSON.stringify({
+    id: tweet_id,
+    action: action
+  })
+  const xhr = new XMLHttpRequest()
+  xhr.open(method, url)
+  xhr.setRequestHeader('Content-Type', 'application/json')
+  xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+  xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+  xhr.setRequestHeader("X-CSRFToken", csrftoken)
+  xhr.onload = () => {
+    console.log(xhr.status, xhr.response)
+    getData(home_url)
+  }
+  toggleLikeButtons(tweet_id, action)
+  xhr.send(data)
+
+}
+
+function toggleLikeButtons(tweet_id, action) {  // handle later with React
+  if (action === 'like') {
+    document.getElementById(`like_${tweet_id}`).style.visibility = 'hidden';
+    document.getElementById(`unlike_${tweet_id}`).style.visibility = 'visible';
+  } else if (action === 'unlike') {
+    document.getElementById(`like_${tweet_id}`).style.visibility = 'visible';
+    document.getElementById(`unlike_${tweet_id}`).style.visibility = 'hidden';
+  }
 }
 
 function handleTweetSubmitForm(e) {
@@ -85,6 +160,16 @@ function handleTweetSubmitForm(e) {
   myForm.reset();
 }
 
-tweetCreateForm.addEventListener('submit', handleTweetSubmitForm)
+
+
+
+
+tweetCreateForm.addEventListener('submit', handleTweetSubmitForm);
+
+// tweetCreateForm.addEventListener('keypress', e => {
+//   if (e.key === 'Enter') {
+//     handleTweetSubmitForm(e);
+//   }
+// })
 
 getData(home_url);
