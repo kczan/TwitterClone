@@ -3,7 +3,7 @@ const tweetCreateForm = document.getElementById('tweet-create-form');
 const alertBar = document.getElementById('alert-bar');
 tweetsElement.innerHTML = 'Loading...';
 
-home_url = '/tweets';
+home_url = 'api/tweets/';
 
 function getCookie(name) {
   var cookieValue = null;
@@ -120,7 +120,7 @@ function retweetButton(tweet) {
 function handleTweetAction(tweet_id, currentLikes, action) {
   const csrftoken = getCookie('csrftoken');
   console.log(tweet_id, currentLikes)
-  const url = 'api/tweets/action'
+  const url = 'api/tweets/action/'
   const method = 'POST'
   const data = JSON.stringify({
     id: tweet_id,
