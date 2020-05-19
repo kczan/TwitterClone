@@ -5,7 +5,7 @@ tweetsElement.innerHTML = 'Loading...';
 
 home_url = 'api/tweets/';
 
-function getCookie(name) {
+function getCookie(name) { // gets csrf cookie
   var cookieValue = null;
   if (document.cookie && document.cookie !== '') {
     var cookies = document.cookie.split(';');
@@ -100,22 +100,7 @@ function formatTweet(tweet) {
     `);
 }
 
-function likeButton(tweet){
-  console.log(tweet.likes)
-  return `<button class='btn btn-primary' id='like_${tweet.id}' onclick=handleTweetAction(${tweet.id},${tweet.likes},'like')>Like</button>`
-}
 
-function unLikeButton(tweet) {
-  return `<button class='btn btn-primary' id='unlike_${tweet.id}'onclick=handleTweetAction(${tweet.id},${tweet.likes},'unlike')>Unlike</button>`
-}
-
-function likesCount(tweet) {
-  return `<p class='input-group-text'>${tweet.likes}</p>`
-}
-
-function retweetButton(tweet) {
-  return `<button class='btn btn-outline-success btn-sm' id='unlike_${tweet.id}'onclick=handleTweetAction(${tweet.id},${tweet.likes},'retweet')>Retweet</button>`
-}
 
 function handleTweetAction(tweet_id, currentLikes, action) {
   const csrftoken = getCookie('csrftoken');
@@ -160,16 +145,7 @@ function handleTweetSubmitForm(e) {
   myForm.reset();
 }
 
-
-
-
-
 tweetCreateForm.addEventListener('submit', handleTweetSubmitForm);
 
-// tweetCreateForm.addEventListener('keypress', e => {
-//   if (e.key === 'Enter') {
-//     handleTweetSubmitForm(e);
-//   }
-// })
 
 getData(home_url);
