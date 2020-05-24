@@ -15,13 +15,16 @@ export function ParentTweet(props) {
 
 export function Tweet(props) {
   const className = props.className ? props.className : 'col-10 mx-auto col-md-6 bg-light';
-  const { tweet } = props;
+  const { tweet, didRetweet } = props;
   const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
 
   const handlePerformAction = (newActionTweet, status) => {
     if (status === 200) {
       setActionTweet(newActionTweet)
     } else if (status === 201) {
+      if (didRetweet) {
+        didRetweet(newActionTweet)
+      }
     }
   }
   return <div className={className}>
@@ -101,8 +104,18 @@ export function TweetsList(props) {
     }}, [tweetsInit, setTweetsDidSet, tweetsDidSet])
   
 
+    const handleDidRetweet = (newTweet) => {
+      const updatedTweetsInit = [...tweetsInit]
+      updatedTweetsInit.unshift(newTweet)
+      setTweetsInit(updatedTweetsInit)
+
+      const updatedFinalTweets = [...tweets]
+      updatedFinalTweets.unshift(tweets)
+      setTweets(updatedFinalTweets)
+    }
+
   return tweets.map((tweet) => {
-    return <Tweet tweet={tweet} key={tweet.id} className='mx-2' />
+    return <Tweet tweet={tweet} didRetweet={handleDidRetweet} key={tweet.id} className='mx-2' />
   })
 
 
