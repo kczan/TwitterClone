@@ -4,15 +4,13 @@ import './index.css';
 import { TweetsComponent } from './tweets'
 import * as serviceWorker from './serviceWorker';
 
-const appElement = document.getElementById('tweets')
+const tweetsElement = document.getElementById('tweets')
 
-if (appElement) {
-  ReactDOM.render(
-    <React.StrictMode>
-      <TweetsComponent />
-    </React.StrictMode>,
-    appElement
-  );
+const reactElement = React.createElement
+
+if (tweetsElement) {
+  const MyTweetsComponent = reactElement(TweetsComponent, tweetsElement.dataset)
+  ReactDOM.render(MyTweetsComponent, tweetsElement);
 }
 
 
