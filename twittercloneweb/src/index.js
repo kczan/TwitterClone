@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { TweetsComponent } from './tweets'
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const appElement = document.getElementById('tweets')
+
+if (appElement) {
+  ReactDOM.render(
+    <React.StrictMode>
+      <TweetsComponent />
+    </React.StrictMode>,
+    appElement
+  );
+}
+
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

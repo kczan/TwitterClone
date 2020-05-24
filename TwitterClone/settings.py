@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '52.59.204.83']
 
@@ -111,13 +111,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+DEFAULT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.SessionAuthentication'
+]
+
+DEFAULT_RENDERER_CLASSES = [
+        'rest_framework.renderers.JSONRenderer',
     ]
+
+
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+    DEFAULT_AUTHENTICATION_CLASSES += [
+        'TwitterClone.rest_api.dev.DevAuthentication'
+    ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+
+    
 }
+
+# JWT_AUTH = {
+#     # Authorization:Token xxx
+#     'JWT_AUTH_HEADER_PREFIX': 'Token',
+# }
 
 CORS_ORIGIN_ALLOW_ALL = False
 
@@ -143,12 +163,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-root')
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    'tweets/static'
+    os.path.join(BASE_DIR, 'static')
 ]
 
 LOGIN_URL = '/login'

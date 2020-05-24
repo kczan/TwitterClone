@@ -21,6 +21,8 @@ class Tweet(models.Model):
     ordering = ['-id']
 
   def __str__(self):
+    if not self.content:
+      return 'EMPTY_TWEET'
     return self.content
 
   @property

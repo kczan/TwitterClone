@@ -1,4 +1,4 @@
-import {LikeButton, UnLikeButton, RetweetButton, LikesCount, Tweet, TweetsList} from './components';
+import {TweetsComponent} from './components';
 
 
-export { LikeButton, UnLikeButton, RetweetButton, LikesCount, Tweet, TweetsList };
+export {TweetsComponent };

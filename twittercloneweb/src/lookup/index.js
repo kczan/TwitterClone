@@ -1,3 +1,3 @@
-import {getData} from './components'
+import {lookup} from './components'
 
-export {getData}
+export {lookup}
