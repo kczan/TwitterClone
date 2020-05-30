@@ -42,7 +42,6 @@ export async function lookup(method, endpoint, callback, data) {
     } else {
       response = await fetch(`http://localhost:8000/api/${endpoint}`);
     }
-    console.log(response)
     if (response.ok) {
       let result = await response.json()
       callback(result, response.status)

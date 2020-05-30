@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { TweetsComponent } from './tweets'
+import { TweetsComponent, TweetDetailComponent } from './tweets'
 import * as serviceWorker from './serviceWorker';
 
 const tweetsElement = document.getElementById('tweets')
@@ -12,6 +12,13 @@ if (tweetsElement) {
   const MyTweetsComponent = reactElement(TweetsComponent, tweetsElement.dataset)
   ReactDOM.render(MyTweetsComponent, tweetsElement);
 }
+
+const tweetDetailElement = document.querySelectorAll('.tweet-detail')
+
+tweetDetailElement.forEach(container => {
+  const MyTweetDetailComponent = reactElement(TweetDetailComponent, container.dataset)
+  ReactDOM.render(MyTweetDetailComponent, container);
+})
 
 
 

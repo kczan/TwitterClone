@@ -139,7 +139,7 @@ REST_FRAMEWORK = {
 #     'JWT_AUTH_HEADER_PREFIX': 'Token',
 # }
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
