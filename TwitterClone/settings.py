@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # internal
     'tweets.apps.TweetsConfig',
+    'accounts.apps.AccountsConfig',
+    'profiles.apps.ProfilesConfig',
     # third-party
     'rest_framework',
     'rest_framework.authtoken',
@@ -124,9 +126,9 @@ if DEBUG:
     DEFAULT_RENDERER_CLASSES += [
         'rest_framework.renderers.BrowsableAPIRenderer',
     ]
-    DEFAULT_AUTHENTICATION_CLASSES += [
-        'TwitterClone.rest_api.dev.DevAuthentication'
-    ]
+    # DEFAULT_AUTHENTICATION_CLASSES += [
+    #     'TwitterClone.rest_api.dev.DevAuthentication'
+    # ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
     'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
@@ -191,3 +193,4 @@ MAX_TWEET_LENGTH = 180
 TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']
 
 CSRF_COOKIE_SECURE = False
+

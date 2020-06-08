@@ -39,6 +39,9 @@ export async function lookup(method, endpoint, callback, data) {
         }
       }
       response = await fetch(`http://localhost:8000/api/${endpoint}`, obj);
+      if (response.status === 403) {
+        window.location.href = "/login?showLoginRequired=true"
+      }
     } else {
       response = await fetch(`http://localhost:8000/api/${endpoint}`);
     }
@@ -46,6 +49,7 @@ export async function lookup(method, endpoint, callback, data) {
       let result = await response.json()
       callback(result, response.status)
     } else {
+      
       throw new Error('Request Failed!');
     }
   } catch (error) {
