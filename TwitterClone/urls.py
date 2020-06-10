@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', tweets_list_view, name='home'),
     path('<int:tweet_id>', tweets_detail_view),
+    path('api/profile/', include('profiles.api.urls')),
     path('profile/', include('profiles.urls')),
     path('api/tweets/', include('tweets.api.urls')),
     path('react/', TemplateView.as_view(template_name='react.html')),

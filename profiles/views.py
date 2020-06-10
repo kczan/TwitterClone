@@ -27,8 +27,12 @@ def profile_update_view(request, *args, **kwargs):
     return redirect('/login?next=/profile/update')
 
   my_profile = user.profile
-  form = ProfileForm(request.POST or None, instance=my_profile)
-  print('profil updat wiu')
+  user_data = {
+    'name': f'{user.first_name}' + ' ' + f'{user.last_name}',
+    'bio': user.profile.bio,
+    'email': user.email
+  }
+  form = ProfileForm(request.POST or None, instance=my_profile, initial=user_data)
   if form.is_valid():
     profile_obj = form.save(commit=False)
     name = form.cleaned_data.get('name')
