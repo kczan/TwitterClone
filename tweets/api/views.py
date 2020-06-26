@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
@@ -13,7 +14,15 @@ from ..models import Tweet
 from ..forms import TweetForm
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
+TWEETS_ON_SINGLE_PAGE = 30
 
+
+def get_paginated_queryset_response(qs, request, *args, **kwargs):
+  paginator = PageNumberPagination()
+  paginator.page_size = TWEETS_ON_SINGLE_PAGE
+  paginated_qs = paginator.paginate_queryset(qs, request)
+  serializer = TweetReadSerializer(paginated_qs, many=True)
+  return paginator.get_paginated_response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -35,24 +44,16 @@ def tweet_list_view(request, *args, **kwargs):
   query_set = Tweet.objects.all()
   username = request.GET.get('username')
   if username != None:
-    query_set = query_set.filter(author__username__iexact=username)
-  serializer = TweetReadSerializer(query_set, many=True)
-  return Response(serializer.data)
+    query_set = query_set.by_username(username)
+  return get_paginated_queryset_response(query_set, request)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def tweet_feed_view(request, *args, **kwargs):
   user = request.user
-  profiles = user.following.all()
-  followed_users_id = []
-  if profiles.exists():
-    followed_users_id = [x.user.id for x in profiles]
-  followed_users_id.append(user.id)
-  query_set = Tweet.objects.filter(author__id__in=followed_users_id).order_by('-timestamp')
-  serializer = TweetReadSerializer(query_set, many=True)
-  return Response(serializer.data)
-
+  query_set = Tweet.objects.feed(user)
+  return get_paginated_queryset_response(query_set, request)
 
 @api_view(['GET'])
 def tweet_detail_view(request, tweet_id, *args, **kwargs):

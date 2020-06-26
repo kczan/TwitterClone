@@ -9,10 +9,13 @@ export async function apiTweetAction(tweetId, action, callback) {
   lookup('POST', 'tweets/action/', callback, { id: tweetId, action: action })
 }
 
-export async function apiGetTweets(username, callback) {
+export async function apiGetTweets(username, callback, nextUrl) {
   let endpoint = 'tweets/'
   if (username) {
     endpoint += `?username=${username}`
+  }
+  if (nextUrl !== null && nextUrl !== undefined) {
+    endpoint = nextUrl.replace("http://localhost:8000/api/", "")
   }
   lookup('GET', endpoint, callback, [])
 }

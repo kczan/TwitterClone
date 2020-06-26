@@ -18,7 +18,6 @@ export function Tweet(props) {
   const className = props.className ? props.className : 'col-10 mx-auto col-md-6 bg-light';
   const { tweet, didRetweet, hideActions } = props;
   const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
-
   const path = window.location.pathname
   const match = path.match(/(?<tweetid>\d+)/)
   const urlTweetId = match ? match.groups.tweetid : -1
@@ -43,7 +42,14 @@ export function Tweet(props) {
   }
   return <div className={className}>
     <div>
-      <p>{tweet.id} - {tweet.content}</p>
+      <p>
+        {tweet.author['first_name'] | async}{" "}
+        {tweet.author.last_name}{" "}
+        @{tweet.author.username}
+
+      </p>
+      <p>{JSON.stringify(tweet.author)}
+        {tweet.content}</p>
       <ParentTweet tweet={tweet} />
 
     </div>

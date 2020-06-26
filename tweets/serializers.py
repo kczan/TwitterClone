@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.conf import settings
 from .models import Tweet
+from profiles.serializers import PublicProfileSerializer
 
 TWEET_ACTION_OPTIONS = settings.TWEET_ACTION_OPTIONS
 
@@ -16,14 +17,20 @@ class TweetActionSerializer(serializers.Serializer):
     return value
 
 class TweetCreateSerializer(serializers.ModelSerializer):
+  author = PublicProfileSerializer(source='user.profile', read_only=True)
   likes = serializers.SerializerMethodField(read_only=True)
+  timestamp = serializers.SerializerMethodField(read_only=True)
+
   
   class Meta:
     model = Tweet
-    fields = ['id', 'content', 'likes']
+    fields = ['author', 'id', 'content', 'likes', 'timestamp']
   
   def get_likes(self, obj):
     return obj.likes.count()
+  
+  def get_timestamp(self, obj):
+    return obj.timestamp
 
   def validate_content(self, value):
     if len(value) > settings.MAX_TWEET_LENGTH:
@@ -32,12 +39,13 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 
 
 class TweetReadSerializer(serializers.ModelSerializer):
+  author = PublicProfileSerializer(source='author.profile', read_only=True)
   likes = serializers.SerializerMethodField(read_only=True)
   og_tweet = TweetCreateSerializer(source='parent', read_only=True)
 
   class Meta:
     model = Tweet
-    fields = ['id', 'content', 'likes', 'is_retweet', 'og_tweet']
+    fields = ['author', 'id', 'content', 'likes', 'is_retweet', 'og_tweet', 'timestamp']
   
   def get_likes(self, obj):
     return obj.likes.count()
