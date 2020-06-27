@@ -28,9 +28,9 @@ export function TweetsList(props) {
           setTweets(response.results)
         }
       }
-      apiGetTweets(props.username, handleTweetRefresh, nextUrl)
+      apiGetTweets(props.username, handleTweetRefresh)
     }
-  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, props.username, nextUrl])
+  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, props.username])
 
 
   const handleDidRetweet = (newTweet) => {

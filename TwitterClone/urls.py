@@ -21,13 +21,14 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 
-from tweets.views import (tweets_detail_view, tweets_list_view)
+from tweets.views import (tweets_detail_view, tweets_list_view, home_view)
 from accounts.views import (login_view, logout_view, register_view)
 
 
 urlpatterns = [
+    path('', home_view),
     path('admin/', admin.site.urls),
-    path('', tweets_list_view, name='home'),
+    path('global', tweets_list_view, name='global'),
     path('<int:tweet_id>', tweets_detail_view),
     path('api/profile/', include('profiles.api.urls')),
     path('profile/', include('profiles.urls')),

@@ -8,7 +8,7 @@ export function ParentTweet(props) {
   return tweet.og_tweet ? <div className='row'>
     <div className='col-11 mx-2 p-3 border rounded'>
       <Tweet hideActions className={'mx-1'} tweet={tweet.og_tweet} />
-      <span className='mb-0 small text-muted'>Retweet from <UserLink author={retweeter} includeFullName={false}/></span>
+      <span className='mb-0 small text-muted'>Retweeted via <UserLink author={retweeter} includeFullName={false}/></span>
     </div>
   </div> : null
 }
@@ -40,6 +40,7 @@ export function Tweet(props) {
   }
   return <div className={className}>
     <div className='d-flex'>
+
       <div className=''>
         <UserPicture author={tweet.author}/>
       </div>
