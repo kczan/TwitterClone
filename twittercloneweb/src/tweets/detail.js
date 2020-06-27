@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { ActionButton } from './buttons'
-
-
+import {UserLink, UserPicture} from '../profiles'
 
 
 export function ParentTweet(props) {
-  const { tweet } = props
+  const { tweet, retweeter } = props
   return tweet.og_tweet ? <div className='row'>
-    <div className='col-11 mx-auto p-3 border rounded'>
+    <div className='col-11 mx-2 p-3 border rounded'>
       <Tweet hideActions className={'mx-1'} tweet={tweet.og_tweet} />
-      <p className='mb-0 small text-muted'>Retweet</p>
+      <span className='mb-0 small text-muted'>Retweet from <UserLink author={retweeter} includeFullName={false}/></span>
     </div>
   </div> : null
 }
@@ -21,7 +20,6 @@ export function Tweet(props) {
   const path = window.location.pathname
   const match = path.match(/(?<tweetid>\d+)/)
   const urlTweetId = match ? match.groups.tweetid : -1
-
   
   const isDetail = `${tweet.id}` === `${urlTweetId}`
 
@@ -41,21 +39,22 @@ export function Tweet(props) {
     }
   }
   return <div className={className}>
-    <div>
-      <p>
-        {tweet.author['first_name'] | async}{" "}
-        {tweet.author.last_name}{" "}
-        @{tweet.author.username}
+    <div className='d-flex'>
+      <div className=''>
+        <UserPicture author={tweet.author}/>
+      </div>
+      <div className='col-11'>
 
-      </p>
-      <p>{JSON.stringify(tweet.author)}
-        {tweet.content}</p>
-      <ParentTweet tweet={tweet} />
+      
+    <div className='ml-2'>
+      {tweet.author ? <UserLink author={tweet.author} includeFullName={true} /> : <span className='col-1 mb-6'></span>}
+      <p>{tweet.content}</p>
+      <ParentTweet retweeter={tweet.author} tweet={tweet}/>
 
     </div>
 
-    <div className='btn btn-group'>
-      <span className='bg-light p-2 border'>
+      <div className='btn btn-group px-0'>
+      <span className='bg-light p-2 border rounded'>
         {actionTweet && hideActions !== true && <React.Fragment>
           <ActionButton tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'like', btnClass: 'btn btn-primary btn-sm ml-1' }} />
           <ActionButton tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'unlike', btnClass: 'btn btn-primary btn-sm ml-1' }} />
@@ -64,6 +63,8 @@ export function Tweet(props) {
         
         {isDetail === true ? null : <button className='btn btn-outline-primary btn-sm ml-1' onClick={handleLink}>View</button>}
       </span>
+    </div>
+    </div>
     </div>
   </div>
 }

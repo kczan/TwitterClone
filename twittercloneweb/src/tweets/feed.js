@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import {Tweet} from './detail'
-import { apiGetTweets} from './lookup'
+import { Tweet } from './detail'
+import { apiGetTweetsFeed } from './lookup'
 
 
 
 
-export function TweetsList(props) {
+export function TweetsListFeed(props) {
   const [tweetsInit, setTweetsInit] = useState([])
   const [tweets, setTweets] = useState([])
   const [nextUrl, setNextUrl] = useState(null)
   const [tweetsDidSet, setTweetsDidSet] = useState(false)
-  useEffect(() => {
-    const final = [...props.newTweets].concat(tweetsInit)
-    if (final.length !== tweets.length) {
-      setTweets(final)
-    }
+  // useEffect(() => {
+  //   const final = [...props.newTweets].concat(tweetsInit)
+  //   if (final.length !== tweets.length) {
+  //     setTweets(final)
+  //   }
 
-  }, [props.newTweets, tweetsInit, tweets])
+  // }, [props.newTweets, tweetsInit, tweets])
 
   useEffect(() => {
     if (tweetsDidSet === false) {
@@ -28,9 +28,9 @@ export function TweetsList(props) {
           setTweets(response.results)
         }
       }
-      apiGetTweets(props.username, handleTweetRefresh, nextUrl)
+      apiGetTweetsFeed(handleTweetRefresh, nextUrl)
     }
-  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, props.username, nextUrl])
+  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, nextUrl])
 
 
   const handleDidRetweet = (newTweet) => {
@@ -54,13 +54,13 @@ export function TweetsList(props) {
           setTweets(newTweets)
         }
       }
-      apiGetTweets(props.username, handleLoadNextResponse, nextUrl)
+      apiGetTweetsFeed(handleLoadNextResponse, nextUrl)
     }
   }
 
   return <React.Fragment>{tweets.map((tweet) => {
     return <Tweet tweet={tweet} didRetweet={handleDidRetweet} key={tweet.id} className='mx-3 py-1 my-3' />
-    })}
-    { nextUrl !== null && <button onClick={handleLoadNext} className='btn btn-outline-primary'>Load next</button>}
+  })}
+    {nextUrl !== null && <button onClick={handleLoadNext} className='btn btn-outline-primary'>Load next</button>}
   </React.Fragment>
 }

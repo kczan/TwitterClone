@@ -61,6 +61,7 @@ def tweet_detail_view(request, tweet_id, *args, **kwargs):
   if not query_set.exists():
     return Response({}, status=404)
   obj = query_set.first()
+  print('dupa detail')
   serializer = TweetReadSerializer(obj)
   return Response(serializer.data)
 

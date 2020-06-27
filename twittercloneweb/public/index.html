@@ -29,8 +29,10 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="tweets" data-username="filip" data-can-tweet='false'></div>
     <div id='tweet-container'></div>
+    <div id="tweets-feed" data-username="filip" data-can-tweet='false'></div>
+    <!-- <div id='tweets-feed' data-username="filip" data-can-tweet='false'></div> -->
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -51,8 +53,8 @@
         const tweetsEl = document.getElementById('tweets')
         tweetsEl.className = 'd-none'
         let tweetEl = "<div class='tweet-detail' data-tweet-id=" + tweetId + " data-class-name='col-6 mx-auto'></div>"
-        const mainConteiner = document.getElementById('tweet-container')
-        mainConteiner.innerHTML = tweetEl
+        const mainContainer = document.getElementById('tweet-container')
+        mainContainer.innerHTML = tweetEl
       }
       
 

@@ -20,6 +20,14 @@ export async function apiGetTweets(username, callback, nextUrl) {
   lookup('GET', endpoint, callback, [])
 }
 
+export async function apiGetTweetsFeed(callback, nextUrl) {
+  let endpoint = 'tweets/feed/'
+  if (nextUrl !== null && nextUrl !== undefined) {
+    endpoint = nextUrl.replace("http://localhost:8000/api/", "")
+  }
+  lookup('GET', endpoint, callback, [])
+}
+
 export async function apiGetTweetDetail(tweetId, callback) {
   lookup('GET', `tweets/${tweetId}`, callback, [])
 }
