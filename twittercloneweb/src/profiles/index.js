@@ -3,4 +3,6 @@ import {
   UserPicture
 } from './components'
 
-export {UserLink, UserPicture}
+import {ProfileBadgeComponent} from './badge'
+
+export {UserLink, UserPicture, ProfileBadgeComponent}
