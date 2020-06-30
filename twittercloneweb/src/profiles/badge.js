@@ -24,7 +24,7 @@ function ProfileBadge(props){
       <div className="ml-1 text-muted small">@{user.username}</div>
       <section className="p-2 bg-light w-25">
         <p className="d-inline pr-3">
-          <DisplayCount>{user.followers_count}</DisplayCount>
+          <DisplayCount>{user.follower_count}</DisplayCount>
           {user.followers_count === 1 ? "follower" : "followers"}
         </p>
         {"|"}

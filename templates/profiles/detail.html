@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
+{% block title %}
+- {{ profile_username }}'s profile
+{% endblock title %}
+
 {% block content %}
 
-
+<div class='tweet-profile-badge' data-username='{{ profile_username }}'></div>
 <div id='tweets' data-username='{{ profile_username }}' data-can-tweet='false'></div>
 
 {% endblock content %}
