@@ -1,0 +1,13 @@
+@media only screen and (max-width: 600px) {
+  .single-action-btn{
+    font-size: smaller;
+  }
+
+  .tweet-create-form{
+    width: 80%;
+  }
+}
+
+.tweet-create-form{
+  width: 60%;
+}

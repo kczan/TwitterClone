@@ -22,6 +22,7 @@ You can now access the website through http://localhost:8000 using any web brows
 **If you want to get the Secret key, please contact me via fchrzan@gmail.com**
 
 ## Coming soon
+* More mobile styling
 * User search bar
 * Prettier login/logout pages
 * Profile picture upload

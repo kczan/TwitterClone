@@ -38,34 +38,67 @@ export function Tweet(props) {
       }
     }
   }
-  return <div className={className}>
-    <div className='d-flex'>
+  return (
+    <div className={className}>
+      <div className="d-flex">
+        <div className="">
+          <UserPicture author={tweet.author} />
+        </div>
+        <div className="col-11">
+          <div className="ml-2">
+            {tweet.author ? (
+              <UserLink author={tweet.author} includeFullName={true} />
+            ) : (
+              <span className="col-1 mb-6"></span>
+            )}
+            <p>{tweet.content}</p>
+            <ParentTweet retweeter={tweet.author} tweet={tweet} />
+          </div>
 
-      <div className=''>
-        <UserPicture author={tweet.author}/>
+          <div className="btn btn-group px-0 button-container">
+            <span className="bg-light p-2 border rounded ">
+              {actionTweet && hideActions !== true && (
+                <React.Fragment>
+                  <ActionButton
+                    tweet={actionTweet}
+                    didPerformAction={handlePerformAction}
+                    action={{
+                      type: "like",
+                      btnClass: "btn btn-primary btn-sm ml-1 single-action-btn",
+                    }}
+                  />
+                  <ActionButton
+                    tweet={actionTweet}
+                    didPerformAction={handlePerformAction}
+                    action={{
+                      type: "unlike",
+                      btnClass: "btn btn-primary btn-sm ml-1 single-action-btn",
+                    }}
+                  />
+                  <ActionButton
+                    tweet={actionTweet}
+                    didPerformAction={handlePerformAction}
+                    action={{
+                      type: "retweet",
+                      btnClass:
+                        "btn btn-outline-success btn-sm ml-1 single-action-btn",
+                    }}
+                  />
+                </React.Fragment>
+              )}
+
+              {isDetail === true ? null : (
+                <button
+                  className="btn btn-outline-primary btn-sm ml-1"
+                  onClick={handleLink}
+                >
+                  View
+                </button>
+              )}
+            </span>
+          </div>
+        </div>
       </div>
-      <div className='col-11'>
-
-      
-    <div className='ml-2'>
-      {tweet.author ? <UserLink author={tweet.author} includeFullName={true} /> : <span className='col-1 mb-6'></span>}
-      <p>{tweet.content}</p>
-      <ParentTweet retweeter={tweet.author} tweet={tweet}/>
-
     </div>
-
-      <div className='btn btn-group px-0'>
-      <span className='bg-light p-2 border rounded'>
-        {actionTweet && hideActions !== true && <React.Fragment>
-          <ActionButton tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'like', btnClass: 'btn btn-primary btn-sm ml-1' }} />
-          <ActionButton tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'unlike', btnClass: 'btn btn-primary btn-sm ml-1' }} />
-          <ActionButton tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'retweet', btnClass: 'btn btn-outline-success btn-sm ml-1' }} />
-        </React.Fragment>}
-        
-        {isDetail === true ? null : <button className='btn btn-outline-primary btn-sm ml-1' onClick={handleLink}>View</button>}
-      </span>
-    </div>
-    </div>
-    </div>
-  </div>
+  );
 }

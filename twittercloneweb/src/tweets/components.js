@@ -16,7 +16,7 @@ export function FeedComponent(props) {
   }
   return (
     <div className={props.className}>
-      <TweetCreate didTweet={handleNewTweet} className="col-md-4 mx-auto w-50" />
+      <TweetCreate didTweet={handleNewTweet} className="col-md-4 mx-auto tweet-create-form" />
       <TweetsListFeed newTweets={newTweets} {...props} />
     </div>
   );
@@ -33,7 +33,7 @@ export function TweetsComponent(props) {
   return (
     <div className={props.className}>
       {canTweet === true && (
-        <TweetCreate didTweet={handleNewTweet} className="col-md-4 mx-auto w-50" />
+        <TweetCreate didTweet={handleNewTweet} className="col-md-4 mx-auto tweet-create-form" />
       )}
       <TweetsList newTweets={newTweets} {...props} />
     </div>
