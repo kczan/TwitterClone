@@ -15,7 +15,7 @@ class TweetQuerySet(models.QuerySet):
     profiles_exist = user.following.exists()
     followed_users_id = []
     if profiles_exist:
-      followed_users_id = user.following.values_list('author__id', flat=True)  # only gets author IDs related to the user
+      followed_users_id = user.following.values_list('user__id', flat=True)  # only gets author IDs related to the user
 
     return self.filter(
       Q(author__id__in=followed_users_id) |

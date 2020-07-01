@@ -28,8 +28,6 @@ def get_paginated_queryset_response(qs, request, *args, **kwargs):
 @permission_classes([IsAuthenticated])
 @login_required(login_url='/login/')
 def tweet_create_view(request, *args, **kwargs):
-  print(request.user.username)
-  print(request.data)
   if request.user.is_authenticated:
     serializer = TweetCreateSerializer(data=request.data )
     if serializer.is_valid(raise_exception=True):
@@ -52,6 +50,10 @@ def tweet_list_view(request, *args, **kwargs):
 @permission_classes([IsAuthenticated])
 def tweet_feed_view(request, *args, **kwargs):
   user = request.user
+  # print(user.follower_count)
+  # auth_list = user.followed
+  # query_set = Tweet.objects.filter(author in)
+  # print(Tweet.objects.filter(author=(user or Tweet.author.is_following)))
   query_set = Tweet.objects.feed(user)
   return get_paginated_queryset_response(query_set, request)
 
@@ -61,7 +63,6 @@ def tweet_detail_view(request, tweet_id, *args, **kwargs):
   if not query_set.exists():
     return Response({}, status=404)
   obj = query_set.first()
-  print('dupa detail')
   serializer = TweetReadSerializer(obj)
   return Response(serializer.data)
 

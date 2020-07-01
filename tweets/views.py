@@ -8,8 +8,10 @@ from django.contrib.auth.decorators import login_required
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 def home_view(request, *args, **kwargs):
-  username = None
-  return render(request, 'feed.html', context={})
+  context = {
+    'profile_username': request.user.username
+  }
+  return render(request, 'feed.html', context)
 
 def tweets_list_view(request, *args, **kwargs):
   return render(request, 'tweets/list.html')

@@ -25,12 +25,11 @@ export function TweetsListFeed(props) {
           setNextUrl(response.next)
           setTweetsInit(response.results)
           setTweetsDidSet(true)
-          setTweets(response.results)
         }
       }
-      apiGetTweetsFeed(handleTweetRefresh, nextUrl)
+      apiGetTweetsFeed(handleTweetRefresh)
     }
-  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, nextUrl])
+  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, props.username])  // props.username in dependencies?
 
 
   const handleDidRetweet = (newTweet) => {
