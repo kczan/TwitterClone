@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { ProfileBadgeComponent } from './profiles'
-import { TweetsComponent, TweetDetailComponent, TweetsListFeed } from './tweets'
+import { TweetsComponent, TweetDetailComponent, TweetsListFeed, FeedComponent } from './tweets'
 import * as serviceWorker from './serviceWorker';
 
 const tweetsElement = document.getElementById('tweets')
@@ -17,8 +17,8 @@ if (tweetsElement) {
 
 const tweetsFeedElement = document.getElementById('tweets-feed')
 if (tweetsFeedElement) {
-  const MyTweetsComponent = reactElement(TweetsListFeed, tweetsFeedElement.dataset)
-  ReactDOM.render(MyTweetsComponent, tweetsFeedElement);
+  const MyFeedComponent = reactElement(FeedComponent, tweetsFeedElement.dataset)
+  ReactDOM.render(MyFeedComponent, tweetsFeedElement);
 }
 
 const tweetDetailElement = document.querySelectorAll('.tweet-detail')

@@ -10,13 +10,13 @@ export function TweetsListFeed(props) {
   const [tweets, setTweets] = useState([])
   const [nextUrl, setNextUrl] = useState(null)
   const [tweetsDidSet, setTweetsDidSet] = useState(false)
-  // useEffect(() => {
-  //   const final = [...props.newTweets].concat(tweetsInit)
-  //   if (final.length !== tweets.length) {
-  //     setTweets(final)
-  //   }
+  useEffect(() => {
+    const final = [...props.newTweets].concat(tweetsInit)
+    if (final.length !== tweets.length) {
+      setTweets(final)
+    }
 
-  // }, [props.newTweets, tweetsInit, tweets])
+  }, [props.newTweets, tweetsInit, tweets])
 
   useEffect(() => {
     if (tweetsDidSet === false) {
