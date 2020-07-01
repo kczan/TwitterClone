@@ -1,5 +1,8 @@
+{% load static %}
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Twittur</a>
+  <a class="navbar-brand" href="#"><img src="{% static '/media/twittur_light_narrow.png' %}" alt="logo"></a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto w-75">
@@ -18,6 +21,15 @@
     </form></li>
 
     </ul>
+    {% if request.user.is_authenticated %}
     <span><a class='btn btn-light' href="/profile/{{profile_username}}">{{ profile_username }}</a></span>
+    <span class='px-2'>
+      
+        <a class="btn btn-outline-info" href="/logout">Logout</a>
+      {% else %}
+        <a class="btn btn-outline-info" href="/login">Sign in</a>
+      {% endif %}
+
+    </span>
   </div>
 </nav>
