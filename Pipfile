@@ -11,6 +11,10 @@ autopep8 = "*"
 django = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+gunicorn = "*"
+psycopg2 = "*"
+libpq-dev = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.6"

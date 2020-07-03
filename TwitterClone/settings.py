@@ -13,9 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import json
 
-with open('/etc/config.json') as config_file:
-    config = json.load(config_file)
 
+SECRET_KEY = os.environ.get('SECRET_KEY_TWITTER')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,12 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config['SECRET_KEY']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '52.59.204.83']
+DEBUG = int(os.environ.get('DEBUG', default=1))
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '52.59.204.83', '0.0.0.0']
 
 
 # Application definition
@@ -87,13 +85,27 @@ WSGI_APPLICATION = 'TwitterClone.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+try:
+    DATABASE_PASSWORD = os.environ.get('TWITTERCLONE_DB_PASSWORD')
+except:
+    print('Could not get environment variable TWITTERCLONE_DB_PASSWORD')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'twitterclone',
+        'USER': 'filip',
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -185,9 +197,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = config.get("TODO_GMAIL_USER")
-EMAIL_HOST_PASSWORD = config.get("TODO_GMAIL_PASSWORD")
 
 MAX_TWEET_LENGTH = 180
 TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']
