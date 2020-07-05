@@ -7,18 +7,20 @@ from django.contrib.auth.decorators import login_required
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
+
 def home_view(request, *args, **kwargs):
-  context = {
-    'profile_username': request.user.username
-  }
-  return render(request, 'feed.html', context)
+    context = {
+        'profile_username': request.user.username
+    }
+    return render(request, 'feed.html', context)
+
 
 def tweets_list_view(request, *args, **kwargs):
-  return render(request, 'tweets/list.html')
+    return render(request, 'tweets/list.html')
+
 
 def tweets_detail_view(request, tweet_id, *args, **kwargs):
-  context = {
-    "tweet_id": tweet_id
-  }
-  return render(request, 'tweets/detail.html', context=context)
-
+    context = {
+        "tweet_id": tweet_id
+    }
+    return render(request, 'tweets/detail.html', context=context)

@@ -1,65 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { Tweet } from './detail'
-import { apiGetTweetsFeed } from './lookup'
-
-
-
+import React, { useState, useEffect } from "react";
+import { Tweet } from "./detail";
+import { apiGetTweetsFeed } from "./lookup";
 
 export function TweetsListFeed(props) {
-  const [tweetsInit, setTweetsInit] = useState([])
-  const [tweets, setTweets] = useState([])
-  const [nextUrl, setNextUrl] = useState(null)
-  const [tweetsDidSet, setTweetsDidSet] = useState(false)
+  const [tweetsInit, setTweetsInit] = useState([]);
+  const [tweets, setTweets] = useState([]);
+  const [nextUrl, setNextUrl] = useState(null);
+  const [tweetsDidSet, setTweetsDidSet] = useState(false);
   useEffect(() => {
-    const final = [...props.newTweets].concat(tweetsInit)
+    const final = [...props.newTweets].concat(tweetsInit);
     if (final.length !== tweets.length) {
-      setTweets(final)
+      setTweets(final);
     }
-
-  }, [props.newTweets, tweetsInit, tweets])
+  }, [props.newTweets, tweetsInit, tweets]);
 
   useEffect(() => {
     if (tweetsDidSet === false) {
       const handleTweetRefresh = (response, status) => {
         if (status === 200) {
-          setNextUrl(response.next)
-          setTweetsInit(response.results)
-          setTweetsDidSet(true)
+          setNextUrl(response.next);
+          setTweetsInit(response.results);
+          setTweetsDidSet(true);
         }
-      }
-      apiGetTweetsFeed(handleTweetRefresh)
+      };
+      apiGetTweetsFeed(handleTweetRefresh);
     }
-  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, props.username])  // props.username in dependencies?
-
+  }, [tweetsInit, setTweetsDidSet, tweetsDidSet, props.username]); // props.username in dependencies?
 
   const handleDidRetweet = (newTweet) => {
-    const updatedTweetsInit = [...tweetsInit]
-    updatedTweetsInit.unshift(newTweet)
-    setTweetsInit(updatedTweetsInit)
+    const updatedTweetsInit = [...tweetsInit];
+    updatedTweetsInit.unshift(newTweet);
+    setTweetsInit(updatedTweetsInit);
 
-    const updatedFinalTweets = [...tweets]
-    updatedFinalTweets.unshift(tweets)
-    setTweets(updatedFinalTweets)
-  }
+    const updatedFinalTweets = [...tweets];
+    updatedFinalTweets.unshift(tweets);
+    setTweets(updatedFinalTweets);
+  };
 
   const handleLoadNext = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (nextUrl !== null) {
       const handleLoadNextResponse = (response, status) => {
         if (status === 200) {
-          setNextUrl(response.next)
-          const newTweets = [...tweets].concat(response.results)
-          setTweetsInit(newTweets)
-          setTweets(newTweets)
+          setNextUrl(response.next);
+          const newTweets = [...tweets].concat(response.results);
+          setTweetsInit(newTweets);
+          setTweets(newTweets);
         }
-      }
-      apiGetTweetsFeed(handleLoadNextResponse, nextUrl)
+      };
+      apiGetTweetsFeed(handleLoadNextResponse, nextUrl);
     }
-  }
+  };
 
-  return <React.Fragment>{tweets.map((tweet) => {
-    return <Tweet tweet={tweet} didRetweet={handleDidRetweet} key={tweet.id} className='mx-3 py-1 my-3' />
-  })}
-    {nextUrl !== null && <button onClick={handleLoadNext} className='btn btn-outline-primary'>Load next</button>}
-  </React.Fragment>
+  return (
+    <React.Fragment>
+      {tweets.map((tweet) => {
+        return (
+          <Tweet
+            tweet={tweet}
+            didRetweet={handleDidRetweet}
+            key={tweet.id}
+            className="mx-3 py-1 my-3"
+          />
+        );
+      })}
+      {nextUrl !== null && (
+        <button onClick={handleLoadNext} className="btn btn-outline-primary">
+          Load next
+        </button>
+      )}
+    </React.Fragment>
+  );
 }

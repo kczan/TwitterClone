@@ -1,8 +1,5 @@
-import {
-  UserLink,
-  UserPicture
-} from './components'
+import { UserLink, UserPicture } from "./components";
 
-import {ProfileBadgeComponent} from './badge'
+import { ProfileBadgeComponent } from "./badge";
 
-export {UserLink, UserPicture, ProfileBadgeComponent}
+export { UserLink, UserPicture, ProfileBadgeComponent };

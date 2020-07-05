@@ -1,43 +1,49 @@
-import React, { useState } from 'react';
-import { ActionButton } from './buttons'
-import {UserLink, UserPicture} from '../profiles'
-
+import React, { useState } from "react";
+import { ActionButton } from "./buttons";
+import { UserLink, UserPicture } from "../profiles";
 
 export function ParentTweet(props) {
-  const { tweet, retweeter } = props
-  return tweet.og_tweet ? <div className='row'>
-    <div className='col-11 mx-2 p-3 border rounded'>
-      <Tweet hideActions className={'mx-1'} tweet={tweet.og_tweet} />
-      <span className='mb-0 small text-muted'>Retweeted via <UserLink author={retweeter} includeFullName={false}/></span>
+  const { tweet, retweeter } = props;
+  return tweet.og_tweet ? (
+    <div className="row">
+      <div className="col-11 mx-2 p-3 border rounded">
+        <Tweet hideActions className={"mx-1"} tweet={tweet.og_tweet} />
+        <span className="mb-0 small text-muted">
+          Retweeted via <UserLink author={retweeter} includeFullName={false} />
+        </span>
+      </div>
     </div>
-  </div> : null
+  ) : null;
 }
 
 export function Tweet(props) {
-  const className = props.className ? props.className : 'col-10 mx-auto col-md-6 bg-light';
+  const className = props.className
+    ? props.className
+    : "col-10 mx-auto col-md-6 bg-light";
   const { tweet, didRetweet, hideActions } = props;
-  const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
-  const path = window.location.pathname
-  const match = path.match(/(?<tweetid>\d+)/)
-  const urlTweetId = match ? match.groups.tweetid : -1
-  
-  const isDetail = `${tweet.id}` === `${urlTweetId}`
+  const [actionTweet, setActionTweet] = useState(
+    props.tweet ? props.tweet : null
+  );
+  const path = window.location.pathname;
+  const match = path.match(/(?<tweetid>\d+)/);
+  const urlTweetId = match ? match.groups.tweetid : -1;
+
+  const isDetail = `${tweet.id}` === `${urlTweetId}`;
 
   const handleLink = (event) => {
-    event.preventDefault()
-    window.location.href = `/${tweet.id}`
-  }
-
+    event.preventDefault();
+    window.location.href = `/${tweet.id}`;
+  };
 
   const handlePerformAction = (newActionTweet, status) => {
     if (status === 200) {
-      setActionTweet(newActionTweet)
+      setActionTweet(newActionTweet);
     } else if (status === 201) {
       if (didRetweet) {
-        didRetweet(newActionTweet)
+        didRetweet(newActionTweet);
       }
     }
-  }
+  };
   return (
     <div className={className}>
       <div className="d-flex">

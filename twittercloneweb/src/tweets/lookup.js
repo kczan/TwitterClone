@@ -1,33 +1,32 @@
-import {lookup} from '../lookup'
-
+import { lookup } from "../lookup";
 
 export async function apiCreateTweet(newTweet, callback) {
-  lookup('POST', 'tweets/create-tweet/', callback, { content: newTweet })
+  lookup("POST", "tweets/create-tweet/", callback, { content: newTweet });
 }
 
 export async function apiTweetAction(tweetId, action, callback) {
-  lookup('POST', 'tweets/action/', callback, { id: tweetId, action: action })
+  lookup("POST", "tweets/action/", callback, { id: tweetId, action: action });
 }
 
 export async function apiGetTweets(username, callback, nextUrl) {
-  let endpoint = 'tweets/'
+  let endpoint = "tweets/";
   if (username) {
-    endpoint += `?username=${username}`
+    endpoint += `?username=${username}`;
   }
   if (nextUrl !== null && nextUrl !== undefined) {
-    endpoint = nextUrl.replace("http://localhost:8000/api/", "")
+    endpoint = nextUrl.replace("http://localhost:8000/api/", "");
   }
-  lookup('GET', endpoint, callback, [])
+  lookup("GET", endpoint, callback, []);
 }
 
 export async function apiGetTweetsFeed(callback, nextUrl) {
-  let endpoint = 'tweets/feed/'
+  let endpoint = "tweets/feed/";
   if (nextUrl !== null && nextUrl !== undefined) {
-    endpoint = nextUrl.replace("http://localhost:8000/api/", "")
+    endpoint = nextUrl.replace("http://localhost:8000/api/", "");
   }
-  lookup('GET', endpoint, callback, [])
+  lookup("GET", endpoint, callback, []);
 }
 
 export async function apiGetTweetDetail(tweetId, callback) {
-  lookup('GET', `tweets/${tweetId}`, callback, [])
+  lookup("GET", `tweets/${tweetId}`, callback, []);
 }

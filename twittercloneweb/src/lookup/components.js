@@ -1,11 +1,12 @@
-function getCookie(name) { // gets csrf cookie
+function getCookie(name) {
+  // gets csrf cookie
   var cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    var cookies = document.cookie.split(';');
+  if (document.cookie && document.cookie !== "") {
+    var cookies = document.cookie.split(";");
     for (var i = 0; i < cookies.length; i++) {
       var cookie = cookies[i].trim();
       // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+      if (cookie.substring(0, name.length + 1) === name + "=") {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
         break;
       }
@@ -14,47 +15,45 @@ function getCookie(name) { // gets csrf cookie
   return cookieValue;
 }
 
-
 export async function lookup(method, endpoint, callback, data) {
   let jsonData;
-  const csrftoken = getCookie('csrftoken');
+  const csrftoken = getCookie("csrftoken");
   if (data) {
-    jsonData = JSON.stringify(data)
+    jsonData = JSON.stringify(data);
   }
   try {
     let response = {};
-    if (method === 'POST') {
+    if (method === "POST") {
       let obj = {
         method: method,
         body: jsonData,
         headers: {
-          'Content-Type': 'application/json',
-        }
-      }
+          "Content-Type": "application/json",
+        },
+      };
 
       if (csrftoken) {
         obj.headers = {
-          'Content-Type': 'application/json',
-          "X-CSRFToken": csrftoken
-        }
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken,
+        };
       }
       response = await fetch(`http://localhost:8000/api/${endpoint}`, obj);
-      
+
       if (response.status === 403) {
         if (window.location.href.indexOf("login") === -1) {
-          window.location.href = "/login?showLoginRequired=true"
+          window.location.href = "/login?showLoginRequired=true";
         }
       }
     } else {
       response = await fetch(`http://localhost:8000/api/${endpoint}`);
     }
     if (response.ok) {
-      let result = await response.json()
-      console.log(result)
-      callback(result, response.status)
+      let result = await response.json();
+      console.log(result);
+      callback(result, response.status);
     } else {
-      
-      throw new Error('Request Failed!');
+      throw new Error("Request Failed!");
     }
   } catch (error) {
     console.log(error);

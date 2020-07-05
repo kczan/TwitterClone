@@ -49,21 +49,22 @@ ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 @api_view(['GET', 'POST'])
 def profile_detail_api_view(request, username, *args, **kwargs):
-  query_set = Profile.objects.filter(user__username=username)
-  if not query_set.exists():
-    return Response ({"detail": "User not found"}, status=404)
-  profile_obj = query_set.first()
+    query_set = Profile.objects.filter(user__username=username)
+    if not query_set.exists():
+        return Response({"detail": "User not found"}, status=404)
+    profile_obj = query_set.first()
 
-  data = request.data or {}
-  if request.method == 'POST':
-    current_user = request.user
-    action = data.get('action')
-    if profile_obj.user != request.user:
-      if action == 'follow':
-        profile_obj.followers.add(current_user)
-      elif action == 'unfollow':
-        profile_obj.followers.remove(current_user)
-      else:
-        pass
-  serializer = PublicProfileSerializer(instance=profile_obj, context={"request": request})
-  return Response(serializer.data, status=200)
+    data = request.data or {}
+    if request.method == 'POST':
+        current_user = request.user
+        action = data.get('action')
+        if profile_obj.user != request.user:
+            if action == 'follow':
+                profile_obj.followers.add(current_user)
+            elif action == 'unfollow':
+                profile_obj.followers.remove(current_user)
+            else:
+                pass
+    serializer = PublicProfileSerializer(
+        instance=profile_obj, context={"request": request})
+    return Response(serializer.data, status=200)

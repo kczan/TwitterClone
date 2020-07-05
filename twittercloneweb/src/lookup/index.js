@@ -1,3 +1,3 @@
-import {lookup} from './components'
+import { lookup } from "./components";
 
-export {lookup}
+export { lookup };

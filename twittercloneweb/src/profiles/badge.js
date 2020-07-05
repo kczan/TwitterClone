@@ -1,20 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import {apiGetProfile, apiProfileFollowToggle} from './lookup'
-import {UserPicture} from './components'
-import {DisplayCount} from './utilities'
+import React, { useState, useEffect } from "react";
+import { apiGetProfile, apiProfileFollowToggle } from "./lookup";
+import { UserPicture } from "./components";
+import { DisplayCount } from "./utilities";
 
-
-
-function ProfileBadge(props){
-  const {user, didFollowToggle, profileLoading} = props
-  let currentLabel = user && user.is_following ? 'Unfollow' : 'Follow'
-  currentLabel = profileLoading ? "Loading..." : currentLabel
+function ProfileBadge(props) {
+  const { user, didFollowToggle, profileLoading } = props;
+  let currentLabel = user && user.is_following ? "Unfollow" : "Follow";
+  currentLabel = profileLoading ? "Loading..." : currentLabel;
   const handleFollowToggle = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (didFollowToggle && !profileLoading) {
-      didFollowToggle(currentLabel)
+      didFollowToggle(currentLabel);
     }
-  }
+  };
   return user ? (
     <div className="m-3 p-2">
       <UserPicture author={user} />
@@ -40,34 +38,40 @@ function ProfileBadge(props){
   ) : null;
 }
 
-
 export function ProfileBadgeComponent(props) {
-  const {username} = props
-  const [didLookup, setDidLookup] = useState(false)
-  const [profile, setProfile] = useState(null)
-  const [profileLoading, setProfileLoading] = useState(false)
+  const { username } = props;
+  const [didLookup, setDidLookup] = useState(false);
+  const [profile, setProfile] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(false);
 
   const handleBackendLookup = (response, status) => {
     if (status === 200) {
-      setProfile(response)
+      setProfile(response);
     }
-  }
+  };
   useEffect(() => {
     if (didLookup === false) {
-      setDidLookup(true)
-      apiGetProfile(username, handleBackendLookup)
+      setDidLookup(true);
+      apiGetProfile(username, handleBackendLookup);
     }
-  }, [didLookup, setDidLookup, username])
+  }, [didLookup, setDidLookup, username]);
 
   const handleNewFollow = (actionVerb) => {
     apiProfileFollowToggle(username, actionVerb, (response, status) => {
       if (status === 200) {
-        setProfile(response)
+        setProfile(response);
       }
-      setProfileLoading(false)
-    })
-    setProfileLoading(true)
-
-  }
-return didLookup === false ? "Loading..." : profile && <ProfileBadge user={profile} didFollowToggle={handleNewFollow} profileLoading={profileLoading}/>
+      setProfileLoading(false);
+    });
+    setProfileLoading(true);
+  };
+  return didLookup === false
+    ? "Loading..."
+    : profile && (
+        <ProfileBadge
+          user={profile}
+          didFollowToggle={handleNewFollow}
+          profileLoading={profileLoading}
+        />
+      );
 }
