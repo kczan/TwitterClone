@@ -92,20 +92,27 @@ WSGI_APPLICATION = 'TwitterClone.wsgi.application'
 #     }
 # }
 try:
-    DATABASE_PASSWORD = os.environ.get('TWITTERCLONE_DB_PASSWORD')
+    DATABASE_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
+    DATABASE_USER = os.environ.get('POSTGRES_USER')
+    DATABASE_NAME = os.environ.get('POSTGRES_DB')
 except:
-    print('Could not get environment variable TWITTERCLONE_DB_PASSWORD')
+    print('Could not get environment variables')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'twitterclone',
-        'USER': 'filip',
-        'PASSWORD': DATABASE_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DB_DATABASE_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': os.environ.get('DB_USERNAME', 'user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432')
     }
 }
+
+# import dj_database_url
+# db_from_env = dj_database_url.config()
+# DATABASES['default'].update(db_from_env)
+# DATABASES['default']['CONN_MAX_AGE'] = 500
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -130,8 +137,8 @@ DEFAULT_AUTHENTICATION_CLASSES = [
 ]
 
 DEFAULT_RENDERER_CLASSES = [
-        'rest_framework.renderers.JSONRenderer',
-    ]
+    'rest_framework.renderers.JSONRenderer',
+]
 
 
 if DEBUG:
@@ -145,7 +152,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
     'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
 
-    
+
 }
 
 # JWT_AUTH = {
@@ -202,4 +209,3 @@ MAX_TWEET_LENGTH = 180
 TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']
 
 CSRF_COOKIE_SECURE = False
-
