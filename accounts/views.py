@@ -14,7 +14,9 @@ def login_view(request, *args, **kwargs):
     context = {
         "form": form,
         "title": 'Log in',
-        "btn_label": 'Log in'
+        "btn_label": 'Log in',
+        "register": False,
+        "login": True
     }
     return render(request, 'accounts/auth.html', context)
 
@@ -28,7 +30,9 @@ def register_view(request, *args, **kwargs):
     context = {
         "form": form,
         "title": 'Register',
-        "btn_label": 'Register'
+        "btn_label": 'Register',
+        "register": True,
+        "login": False
     }
     return render(request, 'accounts/auth.html', context)
 

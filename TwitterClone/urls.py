@@ -34,10 +34,11 @@ urlpatterns = [
     path('profile/', include('profiles.urls')),
     path('api/tweets/', include('tweets.api.urls')),
     path('react/', TemplateView.as_view(template_name='react.html')),
-    path('login/', login_view),
+    path('login/', login_view, name='login'),
     path('logout/', logout_view),
-    path('register/', register_view),
+    path('register/', register_view, name='register'),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
