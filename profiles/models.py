@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
 
 
@@ -12,6 +13,24 @@ class FollowerRelation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class ProfileQuerySet(models.QuerySet):
+    def search(self, query=None):
+        qs = self
+        if query is not None:
+            or_lookup = (Q(name__icontains=query) | Q(
+                user__username__icontains=query))
+            qs = qs.filter(or_lookup).distinct()
+        return qs
+
+
+class ProfileManager(models.Manager):
+    def get_queryset(self):
+        return ProfileQuerySet(self.model, using=self._db)
+
+    def search(self, query=None):
+        return self.get_queryset().search(query=query)
 
 
 class Profile(models.Model):
@@ -28,6 +47,8 @@ class Profile(models.Model):
             return str(self.name)
         else:
             return str(self.user)
+
+    objects = ProfileManager()
 
 
 def user_did_save(sender, instance, created, *args, **kwargs):

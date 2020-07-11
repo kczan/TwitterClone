@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.utils.http import is_safe_url
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import SearchVector
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.pagination import PageNumberPagination
@@ -52,10 +53,6 @@ def tweet_list_view(request, *args, **kwargs):
 @permission_classes([IsAuthenticated])
 def tweet_feed_view(request, *args, **kwargs):
     user = request.user
-    # print(user.follower_count)
-    # auth_list = user.followed
-    # query_set = Tweet.objects.filter(author in)
-    # print(Tweet.objects.filter(author=(user or Tweet.author.is_following)))
     query_set = Tweet.objects.feed(user)
     return get_paginated_queryset_response(query_set, request)
 
