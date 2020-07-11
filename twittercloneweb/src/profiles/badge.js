@@ -4,9 +4,14 @@ import { UserPicture } from "./components";
 import { DisplayCount } from "./utilities";
 
 function ProfileBadge(props) {
-  const { user, didFollowToggle, profileLoading } = props;
+  const { user, didFollowToggle, profileLoading, inSearch } = props;
   let currentLabel = user && user.is_following ? "Unfollow" : "Follow";
   currentLabel = profileLoading ? "Loading..." : currentLabel;
+
+  let bioSectionClass = "p-2 bg-light";
+
+  !inSearch && (bioSectionClass += " w-25");
+
   const handleFollowToggle = (event) => {
     event.preventDefault();
     if (didFollowToggle && !profileLoading) {
@@ -15,22 +20,29 @@ function ProfileBadge(props) {
   };
   return user ? (
     <div className="m-3 p-2">
-      <UserPicture author={user} />
-      <div className="pt-3 ml-1">
-        {user.first_name} {user.last_name}{" "}
-      </div>
-      <div className="ml-1 text-muted small">@{user.username}</div>
-      <section className="p-2 bg-light w-25">
-        <p className="d-inline pr-3">
-          <DisplayCount>{user.follower_count}</DisplayCount>
-          {user.followers_count === 1 ? "follower" : "followers"}
-        </p>
-        {"|"}
-        <p className="d-inline pl-3">
-          <DisplayCount>{user.following_count}</DisplayCount> followed
-        </p>
-        <p className="text-truncate font-italic pt-2">{user.bio}</p>
-      </section>
+      <a
+        {...(inSearch ? { href: `/profile/${user.username}` } : {})}
+        className="nounderline"
+      >
+        <div>
+          <UserPicture author={user} />
+          <div className="pt-3 ml-1">
+            {user.first_name} {user.last_name}{" "}
+          </div>
+          <div className="ml-1 text-muted small">@{user.username}</div>
+          <section id="bio-section" className={bioSectionClass}>
+            <p className="d-inline pr-3">
+              <DisplayCount>{user.follower_count}</DisplayCount>
+              {user.followers_count === 1 ? "follower" : "followers"}
+            </p>
+            {"|"}
+            <p className="d-inline pl-3">
+              <DisplayCount>{user.following_count}</DisplayCount> followed
+            </p>
+            <p className="text-truncate font-italic pt-2">{user.bio}</p>
+          </section>
+        </div>
+      </a>
       <button className="btn btn-primary" onClick={handleFollowToggle}>
         {currentLabel}
       </button>
@@ -39,7 +51,7 @@ function ProfileBadge(props) {
 }
 
 export function ProfileBadgeComponent(props) {
-  const { username } = props;
+  const { username, inSearch } = props;
   const [didLookup, setDidLookup] = useState(false);
   const [profile, setProfile] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
@@ -72,6 +84,7 @@ export function ProfileBadgeComponent(props) {
           user={profile}
           didFollowToggle={handleNewFollow}
           profileLoading={profileLoading}
+          inSearch={inSearch}
         />
       );
 }

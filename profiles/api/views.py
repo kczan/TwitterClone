@@ -53,8 +53,8 @@ def profile_detail_api_view(request, username, *args, **kwargs):
 
 @api_view(['GET', 'POST'])
 def profile_search_api_view(request, keyword, *args, **kwargs):
-
     if keyword is not None:
         query_set = Profile.objects.search(query=keyword)
-    print(query_set)
+    else:
+        return redirect('/')
     return get_paginated_queryset_response(query_set, request)

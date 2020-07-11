@@ -1,13 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { ProfileBadgeComponent } from "./profiles";
-import {
-  TweetsComponent,
-  TweetDetailComponent,
-  TweetsListFeed,
-  FeedComponent,
-} from "./tweets";
+import { ProfileBadgeComponent, ProfileSearchResults } from "./profiles";
+import { TweetsComponent, TweetDetailComponent, FeedComponent } from "./tweets";
 import * as serviceWorker from "./serviceWorker";
 
 const tweetsElement = document.getElementById("tweets");
@@ -51,6 +46,18 @@ userProfileBadgeElement.forEach((container) => {
     container.dataset
   );
   ReactDOM.render(MyProfileBadgeComponent, container);
+});
+
+const profileSearchElement = document.querySelectorAll(
+  ".profile-search-element"
+);
+
+profileSearchElement.forEach((container) => {
+  const MyProfileSearchResultsComponent = reactElement(
+    ProfileSearchResults,
+    container.dataset
+  );
+  ReactDOM.render(MyProfileSearchResultsComponent, container);
 });
 
 // If you want your app to work offline and load faster, you can change

@@ -17,13 +17,21 @@
         <a class="nav-link" href="/global">Global</a>
       </li>
       <li>
-        <form class="form-inline my-2 my-lg-0 pl-3">
+        <form
+          class="form-inline my-2 my-lg-0 pl-3"
+          action=""
+          id="user-search-form"
+          onsubmit="userSearch()"
+        >
           <input
             class="form-control mr-sm-2 nav-item"
             type="search"
             placeholder="Find users"
             aria-label="Search"
+            id="user-search-input"
+            required
           />
+
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
             Search
           </button>
@@ -46,3 +54,14 @@
     </span>
   </div>
 </nav>
+
+<script>
+  const userSearch = () => {
+    let formElement = document.getElementById("user-search-form");
+    let actionSrc = `/search/${
+      document.getElementById("user-search-input").value
+    }`;
+
+    formElement.action = actionSrc;
+  };
+</script>

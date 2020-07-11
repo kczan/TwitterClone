@@ -24,12 +24,18 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
     <title>React App</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id='tweets'></div>
+    <!-- <div id='tweets'></div> -->
+    <div class="profile-search-element" data-username="testowy"></div>
     <!-- <div id="tweets-feed" data-username="testowy3" data-can-tweet='false'></div> -->
     <!-- <div class='tweet-profile-badge d-none' data-username='testowy1'></div> -->
     <!-- <div id='tweets-feed' data-username="filip" data-can-tweet='false'></div> -->
@@ -46,19 +52,20 @@
     -->
 
     <script>
-      const path = window.location.pathname
-      const idRegex = /(?<tweetid>\d+)/
-      const match = path.match(idRegex)
+      const path = window.location.pathname;
+      const idRegex = /(?<tweetid>\d+)/;
+      const match = path.match(idRegex);
       if (match) {
-        const tweetId = match.groups.tweetid
-        const tweetsEl = document.getElementById('tweets')
-        tweetsEl.className = 'd-none'
-        let tweetEl = "<div class='tweet-detail' data-tweet-id=" + tweetId + " data-class-name='col-6 mx-auto'></div>"
-        const mainContainer = document.getElementById('tweet-container')
-        mainContainer.innerHTML = tweetEl
+        const tweetId = match.groups.tweetid;
+        const tweetsEl = document.getElementById("tweets");
+        tweetsEl.className = "d-none";
+        let tweetEl =
+          "<div class='tweet-detail' data-tweet-id=" +
+          tweetId +
+          " data-class-name='col-6 mx-auto'></div>";
+        const mainContainer = document.getElementById("tweet-container");
+        mainContainer.innerHTML = tweetEl;
       }
-      
-
     </script>
   </body>
 </html>

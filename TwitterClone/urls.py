@@ -23,6 +23,7 @@ from django.contrib.auth import views as auth_views
 
 from tweets.views import (tweets_detail_view, tweets_list_view, home_view)
 from accounts.views import (login_view, logout_view, register_view)
+from profiles.views import profiles_search_view
 
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns = [
     path('<int:tweet_id>', tweets_detail_view),
     path('api/profile/', include('profiles.api.urls')),
     path('profile/', include('profiles.urls')),
+    path('search/<str:keyword>', profiles_search_view),
     path('api/tweets/', include('tweets.api.urls')),
     path('react/', TemplateView.as_view(template_name='react.html')),
     path('login/', login_view, name='login'),

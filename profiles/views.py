@@ -51,3 +51,10 @@ def profile_update_view(request, *args, **kwargs):
         "btn_label": "Update"
     }
     return render(request, 'profiles/form.html', context)
+
+
+def profiles_search_view(request, keyword, *args, **kwargs):
+    context = {
+        "keyword": keyword
+    }
+    return render(request, 'profiles/search.html', context=context)

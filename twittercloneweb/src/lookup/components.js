@@ -50,7 +50,6 @@ export async function lookup(method, endpoint, callback, data) {
     }
     if (response.ok) {
       let result = await response.json();
-      console.log(result);
       callback(result, response.status);
     } else {
       throw new Error("Request Failed!");
