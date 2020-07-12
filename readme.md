@@ -13,6 +13,14 @@ or if you're using Python 3
 ```bash
 pip3 install -r requirements.txt
 ```
+
+## Features
+* Like and unlike each tweet
+* Follow users you can find by exploring global feed or by searching for specific usernames
+* Your feed based on followed users' tweets and your own
+* Retweet posts that you identify yourself most with
+* Express your thoughts by tweeting as often as you can!
+
 ## Usage
 Cd into main TwitterClone folder and use command:
 ```bash
@@ -38,10 +46,11 @@ To launch webapp:
 
 ## Coming soon
 * More mobile styling
-* User search bar
 * Profile picture upload
 * Trending page
 * Tags
+* Deployment to world wide web
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
