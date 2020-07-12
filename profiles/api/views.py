@@ -1,6 +1,7 @@
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.http import is_safe_url
+from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -56,5 +57,5 @@ def profile_search_api_view(request, keyword, *args, **kwargs):
     if keyword is not None:
         query_set = Profile.objects.search(query=keyword)
     else:
-        return redirect('/')
+        raise Http404('Username not provided.')
     return get_paginated_queryset_response(query_set, request)

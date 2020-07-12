@@ -35,6 +35,15 @@ export function ProfileSearchResults(props) {
       apiGetProfileSearchResults(username, handleLoadNextResponse, nextUrl);
     }
   };
+
+  if (profilesInit.length === 0) {
+    return (
+      <div className="mx-auto col-10 text-center text-large">
+        <h2>Sorry, couldn't find anything!</h2>
+      </div>
+    );
+  }
+
   return (
     <React.Fragment>
       {profilesInit.map((profile) => {
