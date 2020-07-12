@@ -6,9 +6,20 @@ from .models import Profile
 User = get_user_model()
 
 
+class UserProfileForm(forms.ModelForm):
+    location = forms.CharField(required=False)
+    bio = forms.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+
 class ProfileForm(forms.ModelForm):
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
     email = forms.EmailField()
 
     class Meta:
         model = Profile
-        fields = ['name', 'bio']
+        fields = ['bio']

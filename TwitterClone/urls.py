@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 
 from tweets.views import (tweets_detail_view, tweets_list_view, home_view)
 from accounts.views import (login_view, logout_view, register_view)
-from profiles.views import profiles_search_view
+from profiles.views import profiles_search_view, profile_update_view
 
 
 urlpatterns = [
@@ -39,6 +39,8 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view),
     path('register/', register_view, name='register'),
+    path('update-profile', profile_update_view),
+
 ]
 
 if settings.DEBUG:

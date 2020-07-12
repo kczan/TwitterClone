@@ -29,7 +29,8 @@ def profile_update_view(request, *args, **kwargs):
 
     my_profile = user.profile
     user_data = {
-        'name': f'{user.first_name}' + ' ' + f'{user.last_name}',
+        "first_name": user.first_name,
+        "last_name": user.last_name,
         'bio': user.profile.bio,
         'email': user.email
     }
@@ -37,10 +38,12 @@ def profile_update_view(request, *args, **kwargs):
                        instance=my_profile, initial=user_data)
     if form.is_valid():
         profile_obj = form.save(commit=False)
-        name = form.cleaned_data.get('name')
+        first_name = form.cleaned_data.get('first_name')
+        last_name = form.cleaned_data.get('last_name')
         email = form.cleaned_data.get('email')
         bio = form.cleaned_data.get('bio')
-        user.name = name
+        user.first_name = first_name
+        user.last_name = last_name
         user.email = email
         user.bio = bio
         user.save()

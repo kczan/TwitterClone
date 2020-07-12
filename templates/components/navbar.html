@@ -39,11 +39,15 @@
       </li>
     </ul>
     {% if request.user.is_authenticated %}
-    <span
-      ><a class="btn btn-light" href="/profile/{{request.user.username}}"
+    <span>
+      <a href="/update-profile"
+        ><i class="fa fa-user-cog pr-3 fa-lg text-light"></i
+      ></a>
+      <a class="btn btn-light" href="/profile/{{request.user.username}}"
         >{{ request.user.username }}</a
       ></span
     >
+
     <span class="px-2">
       <a class="btn btn-outline-info" href="/logout">Logout</a>
       {% else %}
