@@ -8,6 +8,7 @@ import { Tweet } from "./detail";
 import { TweetsList } from "./list";
 import { TweetCreate } from "./create";
 import { TweetsListFeed } from "./feed";
+import { NavbarComponent } from "./navbar";
 
 export {
   TweetsComponent,
@@ -18,4 +19,5 @@ export {
   TweetDetailComponent,
   TweetsListFeed,
   FeedComponent,
+  NavbarComponent,
 };

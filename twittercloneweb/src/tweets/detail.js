@@ -50,14 +50,14 @@ export function Tweet(props) {
         <div className="">
           <UserPicture author={tweet.author} />
         </div>
-        <div className="col-11">
+        <div className="col-13">
           <div className="ml-2">
             {tweet.author ? (
               <UserLink author={tweet.author} includeFullName={true} />
             ) : (
               <span className="col-1 mb-6"></span>
             )}
-            <p>{tweet.content}</p>
+            <p className="overflow-auto">{tweet.content}</p>
             <ParentTweet retweeter={tweet.author} tweet={tweet} />
           </div>
 

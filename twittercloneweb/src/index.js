@@ -2,7 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { ProfileBadgeComponent, ProfileSearchResults } from "./profiles";
-import { TweetsComponent, TweetDetailComponent, FeedComponent } from "./tweets";
+import {
+  TweetsComponent,
+  TweetDetailComponent,
+  FeedComponent,
+  NavbarComponent,
+} from "./tweets";
 import * as serviceWorker from "./serviceWorker";
 
 const tweetsElement = document.getElementById("tweets");
@@ -59,6 +64,11 @@ profileSearchElement.forEach((container) => {
   );
   ReactDOM.render(MyProfileSearchResultsComponent, container);
 });
+
+const navbarElement = document.getElementById("navbar-component");
+
+const MyNavbarComponent = reactElement(NavbarComponent, navbarElement.dataset);
+ReactDOM.render(MyNavbarComponent, navbarElement);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

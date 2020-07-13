@@ -29,11 +29,15 @@
   </head>
   <body>
     {% include 'components/navbar.html' %}
-    <div id="alert-bar" class="alert pb-5 mb-5">
-      <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div></div>
+    {% if not request.user.is_authenticated %}
+    <div></div>
+    {% if not "login" in request.path and not "register" in request.path %}
+    <div class="px-2 text-center w-100 mb-4">
+      <a class="btn btn-outline-info mx-1" href="/login">Sign in</a>
+      <a class="btn btn-outline-info mx-1" href="/register">Register</a>
     </div>
-
-    {% block content %} {% endblock content %}
+    {% endif %} {% endif %} {% block content %} {% endblock content %}
     <div></div>
     {% include 'react/base_embed.html' %}
     <div></div>

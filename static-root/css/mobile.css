@@ -1,14 +1,39 @@
-.tweet-create-form{
+.tweet-create-form {
   width: 60%;
 }
 
-@media only screen and (max-width: 600px) {
-  .single-action-btn{
-    font-size: smaller;
-  }
-
-  .tweet-create-form{
-    width: 75%;
-  }
+.menu-container {
+  display: none;
+}
+.logo {
+  max-height: 100%;
+}
+.main-navbar {
+  background-color: #343a40;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
 }
 
+@media only screen and (max-width: 600px) {
+  .navbar-desktop {
+    display: none;
+  }
+
+  .tweet-create-form {
+    z-index: 1;
+  }
+
+  #alert-bar {
+    display: none;
+  }
+
+  #bio-section {
+    width: 100% !important;
+  }
+
+  #tweets-feed {
+    margin-top: 60px;
+  }
+}

@@ -24,3 +24,7 @@ def tweets_detail_view(request, tweet_id, *args, **kwargs):
         "tweet_id": tweet_id
     }
     return render(request, 'tweets/detail.html', context=context)
+
+
+def trending_view(request, *args, **kwargs):
+    return render(request, 'trending.html', context={})
