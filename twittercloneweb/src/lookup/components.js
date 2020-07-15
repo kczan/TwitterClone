@@ -38,7 +38,10 @@ export async function lookup(method, endpoint, callback, data) {
           "X-CSRFToken": csrftoken,
         };
       }
-      response = await fetch(`http://localhost:8000/api/${endpoint}`, obj);
+      response = await fetch(
+        `http://twitturapp.herokuapp.com/api/${endpoint}`,
+        obj
+      );
 
       if (response.status === 403) {
         if (window.location.href.indexOf("login") === -1) {
@@ -46,7 +49,7 @@ export async function lookup(method, endpoint, callback, data) {
         }
       }
     } else {
-      response = await fetch(`http://localhost:8000/api/${endpoint}`);
+      response = await fetch(`http://twitturapp.herokuapp.com/api/${endpoint}`);
     }
     if (response.ok) {
       let result = await response.json();

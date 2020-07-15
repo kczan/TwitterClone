@@ -38,7 +38,8 @@ class TweetManager(models.Manager):
 
 
 class Tweet(models.Model):
-    parent = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
+    parent = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.SET_NULL)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='tweet', null=True)
     content = models.TextField(blank=True, null=True)

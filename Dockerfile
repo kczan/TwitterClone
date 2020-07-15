@@ -8,23 +8,29 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install dependencies
-RUN pip install --upgrade pip
+# Install system dependencies with OpenCV
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        tzdata \
+        python3-setuptools \
+        python3-pip \
+        python3-dev \
+        python3-venv \
+        git \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+
+# install environment dependencies
+RUN pip3 install --upgrade pip 
 
 # copy project
 COPY . .
 
-# set project environment variables
-# grab these via Python's os.environ
-# these are 100% optional here
+# Install project dependencies
 
-ENV PORT=8000
+RUN pip install -r requirements.txt --no-dependencies
 
-ENV TWITTERCLONE_DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 
 CMD gunicorn TwitterClone.wsgi:application --bind 0.0.0.0:$PORT
-
 

@@ -9,6 +9,8 @@ from .models import Profile
 
 
 def profile_detail_view(request, username, *args, **kwargs):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     query_set = Profile.objects.filter(user__username=username)
     if not query_set.exists():
         raise Http404

@@ -14,7 +14,7 @@ export async function apiGetTweets(username, callback, nextUrl) {
     endpoint += `?username=${username}`;
   }
   if (nextUrl !== null && nextUrl !== undefined) {
-    endpoint = nextUrl.replace("http://localhost:8000/api/", "");
+    endpoint = nextUrl.replace("twitter-docker-heroku.herokuapp.com/api/", "");
   }
   lookup("GET", endpoint, callback, []);
 }
@@ -22,7 +22,7 @@ export async function apiGetTweets(username, callback, nextUrl) {
 export async function apiGetTweetsFeed(callback, nextUrl) {
   let endpoint = "tweets/feed/";
   if (nextUrl !== null && nextUrl !== undefined) {
-    endpoint = nextUrl.replace("http://localhost:8000/api/", "");
+    endpoint = nextUrl.replace("twitter-docker-heroku.herokuapp.com/api/", "");
   }
   lookup("GET", endpoint, callback, []);
 }
